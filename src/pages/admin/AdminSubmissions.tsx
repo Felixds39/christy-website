@@ -30,15 +30,16 @@ const AdminSubmissions = () => {
   useEffect(() => { fetchSubmissions(); }, []);
 
   const markRead = async (id: string) => {
-    await supabase.from("form_submissions").update({ is_read: true }).eq("id", id);
-    fetchSubmissions();
+    const { error } = await supabase.from("form_submissions").update({ is_read: true }).eq("id", id);
+    if (error) toast.error("Failed to mark as read.");
+    else fetchSubmissions();
   };
 
   const handleDelete = async (id: string) => {
     if (!confirm("Delete this submission?")) return;
-    await supabase.from("form_submissions").delete().eq("id", id);
-    toast.success("Deleted");
-    fetchSubmissions();
+    const { error } = await supabase.from("form_submissions").delete().eq("id", id);
+    if (error) toast.error("Failed to delete submission.");
+    else { toast.success("Deleted"); fetchSubmissions(); }
   };
 
   const filtered = activeTab === "all" ? submissions : submissions.filter((s) => s.form_type === activeTab);

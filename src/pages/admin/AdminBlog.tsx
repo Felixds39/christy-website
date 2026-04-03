@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
 import { Button } from "@/components/ui/button";
@@ -57,7 +57,7 @@ const AdminBlog = () => {
       excerpt: (fd.get("excerpt") as string) || null,
       cover_image_url: (fd.get("cover_image_url") as string) || null,
       status,
-      published_at: status === "published" ? new Date().toISOString() : null,
+      published_at: status === "published" ? (editing?.published_at || new Date().toISOString()) : null,
       meta_title: (fd.get("meta_title") as string) || null,
       meta_description: (fd.get("meta_description") as string) || null,
       author_id: user?.id,

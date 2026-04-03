@@ -21,15 +21,19 @@ const Blog = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    let mounted = true;
     supabase
       .from("blog_posts")
       .select("id, title, slug, excerpt, cover_image_url, published_at, status")
       .eq("status", "published")
       .order("published_at", { ascending: false })
-      .then(({ data }) => {
+      .then(({ data, error }) => {
+        if (!mounted) return;
+        if (error) console.error("Failed to load posts:", error.message);
         setPosts(data || []);
         setLoading(false);
       });
+    return () => { mounted = false; };
   }, []);
 
   return (

@@ -29,16 +29,20 @@ const Events = () => {
   const [submitting, setSubmitting] = useState(false);
 
   useEffect(() => {
+    let mounted = true;
     supabase
       .from("events")
       .select("id, title, description, location, start_time, end_time, max_attendees")
       .eq("is_published", true)
       .gte("start_time", new Date().toISOString())
       .order("start_time", { ascending: true })
-      .then(({ data }) => {
+      .then(({ data, error }) => {
+        if (!mounted) return;
+        if (error) console.error("Failed to load events:", error.message);
         setEvents(data || []);
         setLoading(false);
       });
+    return () => { mounted = false; };
   }, []);
 
   const handleRegister = async (e: React.FormEvent<HTMLFormElement>) => {

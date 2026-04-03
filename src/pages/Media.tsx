@@ -35,14 +35,18 @@ const Media = () => {
   const [activeTab, setActiveTab] = useState("all");
 
   useEffect(() => {
+    let mounted = true;
     supabase
       .from("media_items_public")
       .select("*")
       .order("created_at", { ascending: false })
-      .then(({ data }) => {
+      .then(({ data, error }) => {
+        if (!mounted) return;
+        if (error) console.error("Failed to load media:", error.message);
         setItems((data as MediaItem[]) || []);
         setLoading(false);
       });
+    return () => { mounted = false; };
   }, []);
 
   const categories = ["all", ...Array.from(new Set(items.map((i) => i.category).filter(Boolean))) as string[]];

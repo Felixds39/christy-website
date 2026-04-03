@@ -27,13 +27,13 @@ const Footer = () => (
           Follow on social media for updates on talks, workshops, and new content.
         </p>
         <div className="flex gap-3">
-          <a href="https://www.linkedin.com/in/dr-gincy-susan-george-7b52655b/" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary transition-colors">
+          <a href="https://www.linkedin.com/in/dr-gincy-susan-george-7b52655b/" target="_blank" rel="noopener noreferrer" aria-label="Follow on LinkedIn" className="text-muted-foreground hover:text-primary transition-colors">
             <Linkedin className="h-5 w-5" />
           </a>
-          <a href="https://www.youtube.com/@gincygeorge3038" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary transition-colors">
+          <a href="https://www.youtube.com/@gincygeorge3038" target="_blank" rel="noopener noreferrer" aria-label="Follow on YouTube" className="text-muted-foreground hover:text-primary transition-colors">
             <Youtube className="h-5 w-5" />
           </a>
-          <a href="https://www.instagram.com/speak_up.widchris?igsh=MW5mNGVmeXhydHh1dQ==" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary transition-colors">
+          <a href="https://www.instagram.com/speak_up.widchris?igsh=MW5mNGVmeXhydHh1dQ==" target="_blank" rel="noopener noreferrer" aria-label="Follow on Instagram" className="text-muted-foreground hover:text-primary transition-colors">
             <Instagram className="h-5 w-5" />
           </a>
         </div>
