@@ -46,14 +46,27 @@ const RichTextEditor = ({ content, onChange, className }: RichTextEditorProps) =
 
   if (!editor) return null;
 
+  const isValidUrl = (str: string) => {
+    try {
+      const url = new URL(str);
+      return url.protocol === "http:" || url.protocol === "https:";
+    } catch {
+      return false;
+    }
+  };
+
   const addLink = () => {
     const url = window.prompt("Enter URL:");
-    if (url) editor.chain().focus().setLink({ href: url }).run();
+    if (!url) return;
+    if (!isValidUrl(url)) { window.alert("Please enter a valid URL (https://...)"); return; }
+    editor.chain().focus().setLink({ href: url }).run();
   };
 
   const addImage = () => {
     const url = window.prompt("Enter image URL:");
-    if (url) editor.chain().focus().setImage({ src: url }).run();
+    if (!url) return;
+    if (!isValidUrl(url)) { window.alert("Please enter a valid URL (https://...)"); return; }
+    editor.chain().focus().setImage({ src: url }).run();
   };
 
   return (

@@ -7,12 +7,14 @@ const AdminDashboard = () => {
   const [stats, setStats] = useState({ posts: 0, media: 0, events: 0, submissions: 0 });
 
   useEffect(() => {
+    let mounted = true;
     Promise.all([
       supabase.from("blog_posts").select("id", { count: "exact", head: true }),
       supabase.from("media_items").select("id", { count: "exact", head: true }),
       supabase.from("events").select("id", { count: "exact", head: true }),
       supabase.from("form_submissions").select("id", { count: "exact", head: true }).eq("is_read", false),
     ]).then(([posts, media, events, submissions]) => {
+      if (!mounted) return;
       setStats({
         posts: posts.count || 0,
         media: media.count || 0,
@@ -20,6 +22,7 @@ const AdminDashboard = () => {
         submissions: submissions.count || 0,
       });
     });
+    return () => { mounted = false; };
   }, []);
 
   const cards = [

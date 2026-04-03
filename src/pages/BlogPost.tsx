@@ -23,16 +23,20 @@ const BlogPost = () => {
 
   useEffect(() => {
     if (!slug) return;
+    let mounted = true;
     supabase
       .from("blog_posts")
       .select("*")
       .eq("slug", slug)
       .eq("status", "published")
       .maybeSingle()
-      .then(({ data }) => {
+      .then(({ data, error }) => {
+        if (!mounted) return;
+        if (error) console.error("Failed to load post:", error.message);
         setPost(data);
         setLoading(false);
       });
+    return () => { mounted = false; };
   }, [slug]);
 
   if (loading) return <Layout><div className="container mx-auto py-20 px-4"><div className="h-96 animate-pulse rounded-xl bg-muted" /></div></Layout>;

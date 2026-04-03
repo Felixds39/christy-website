@@ -77,9 +77,9 @@ const AdminEvents = () => {
 
   const handleDelete = async (id: string) => {
     if (!confirm("Delete this event?")) return;
-    await supabase.from("events").delete().eq("id", id);
-    toast.success("Deleted");
-    fetchEvents();
+    const { error } = await supabase.from("events").delete().eq("id", id);
+    if (error) toast.error("Failed to delete event.");
+    else { toast.success("Deleted"); fetchEvents(); }
   };
 
   const viewRegistrations = async (eventId: string) => {

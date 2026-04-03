@@ -80,9 +80,9 @@ const AdminMedia = () => {
 
   const handleDelete = async (id: string) => {
     if (!confirm("Delete this media?")) return;
-    await supabase.from("media_items").delete().eq("id", id);
-    toast.success("Deleted");
-    fetchItems();
+    const { error } = await supabase.from("media_items").delete().eq("id", id);
+    if (error) toast.error("Failed to delete media.");
+    else { toast.success("Deleted"); fetchItems(); }
   };
 
   return (
